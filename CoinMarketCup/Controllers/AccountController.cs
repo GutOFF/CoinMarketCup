@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using CoinMarketCup.Models.Request;
+﻿using CoinMarketCup.Models.Request;
 using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CoinMarketCup.Controllers
 {
@@ -46,7 +46,7 @@ namespace CoinMarketCup.Controllers
         }
 
         [HttpPost("registration")]
-        public async Task<IActionResult> Registration([FromBody] RegistrationRequest registrationRequest)
+        public async Task<IActionResult> Registration(RegistrationRequest registrationRequest)
         {
             if (!ModelState.IsValid)
             {
