@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CoinMarketCup.Service;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CoinMarketCup.Extension
@@ -15,6 +16,8 @@ namespace CoinMarketCup.Extension
             #endregion
 
             #region Service
+
+            services.AddTransient<LoginService>();
 
             #endregion
 
