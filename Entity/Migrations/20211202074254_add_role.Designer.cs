@@ -4,14 +4,16 @@ using Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211202074254_add_role")]
+    partial class add_role
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +63,9 @@ namespace Entity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,6 +86,8 @@ namespace Entity.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("AspNetUsers");
                 });
 
@@ -91,10 +98,6 @@ namespace Entity.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -114,7 +117,19 @@ namespace Entity.Migrations
 
                     b.ToTable("AspNetRoles");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+                    b.HasData(
+                        new
+                        {
+                            Id = "7704d2f0-b195-4392-b9dc-eb485a1c44c2",
+                            ConcurrencyStamp = "55ff42e4-a956-427c-a74b-926de0bcb72c",
+                            Name = "admin"
+                        },
+                        new
+                        {
+                            Id = "9c935d42-265b-4149-af5f-0ca4095dc02d",
+                            ConcurrencyStamp = "c8176b11-4928-4b58-8e64-dcbb1046f6a5",
+                            Name = "user"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -221,40 +236,13 @@ namespace Entity.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Entity.Model.Role", b =>
+            modelBuilder.Entity("Entity.Model.User", b =>
                 {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
 
-                    b.Property<bool>("IsPublish")
-                        .HasColumnType("bit");
-
-                    b.HasDiscriminator().HasValue("Role");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "700e284d-c51b-4a0f-975e-c400eff2d6e2",
-                            ConcurrencyStamp = "17d69fb4-b0e2-4d2f-9526-b3c1247b2aac",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN",
-                            IsPublish = true
-                        },
-                        new
-                        {
-                            Id = "ac6c2b64-3011-4ea1-8c53-8328db0c24df",
-                            ConcurrencyStamp = "7926d01a-268f-48c6-866b-e4bed78a608b",
-                            Name = "User",
-                            NormalizedName = "USER",
-                            IsPublish = true
-                        },
-                        new
-                        {
-                            Id = "db0f821c-097c-417b-884c-828362e90532",
-                            ConcurrencyStamp = "c8e3940c-5907-448d-a43a-bf36eca8e1fc",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN",
-                            IsPublish = false
-                        });
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

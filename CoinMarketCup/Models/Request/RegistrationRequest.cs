@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace CoinMarketCup.Models.Request
 {
@@ -27,5 +25,14 @@ namespace CoinMarketCup.Models.Request
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+        [Display(Name = "RoleName")]
+        public string RoleName { get; set; }
+
+        [Required]
+        [Display(Name = "RoleName")]
+        public DateTime DateOfBirth { get; set; }
+
     }
 }

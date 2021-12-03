@@ -1,17 +1,23 @@
-﻿using CoinMarketCup.Models.Request;
+﻿using System;
+using CoinMarketCup.Models.Request;
 using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace CoinMarketCup.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : Controller
     {
         private readonly LoginService _loginService;
-        public AccountController(LoginService loginService)
+        private readonly CoinMarketCupService _coinMarketCupService;
+
+        public AccountController(LoginService loginService, CoinMarketCupService coinMarketCupService)
         {
             _loginService = loginService;
+            _coinMarketCupService = coinMarketCupService;
         }
        
         [HttpGet]
@@ -22,13 +28,15 @@ namespace CoinMarketCup.Controllers
 
         [HttpPost("login")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("Error", "Invalid user email or password");
+                return View(loginRequest);
             }
 
+            await _coinMarketCupService.GetInformationQuotes();
             var result = await _loginService.Login(loginRequest);
             
             if (result.IsTrue)
@@ -51,6 +59,7 @@ namespace CoinMarketCup.Controllers
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("Error", "Invalid user email or password");
+                return View(registrationRequest);
             }
 
             var result = await _loginService.Registration(registrationRequest);

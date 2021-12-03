@@ -4,14 +4,16 @@ using Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211202080247_add_role_start")]
+    partial class add_role_start
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,6 +63,9 @@ namespace Entity.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -80,6 +85,8 @@ namespace Entity.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -233,28 +240,37 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "700e284d-c51b-4a0f-975e-c400eff2d6e2",
-                            ConcurrencyStamp = "17d69fb4-b0e2-4d2f-9526-b3c1247b2aac",
+                            Id = "1cede13a-22db-4220-9ef7-f6021017d4e1",
+                            ConcurrencyStamp = "3ef2e13b-39f0-4bd4-a00e-1c585ca448c5",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             IsPublish = true
                         },
                         new
                         {
-                            Id = "ac6c2b64-3011-4ea1-8c53-8328db0c24df",
-                            ConcurrencyStamp = "7926d01a-268f-48c6-866b-e4bed78a608b",
+                            Id = "354f98dd-4a81-4375-9f50-7b0e95f356cf",
+                            ConcurrencyStamp = "8a795d0a-2e7d-409d-bf4b-16dd8b4377b2",
                             Name = "User",
                             NormalizedName = "USER",
                             IsPublish = true
                         },
                         new
                         {
-                            Id = "db0f821c-097c-417b-884c-828362e90532",
-                            ConcurrencyStamp = "c8e3940c-5907-448d-a43a-bf36eca8e1fc",
+                            Id = "023e1a70-7258-42b6-968b-3e0cf44b000c",
+                            ConcurrencyStamp = "319102b9-68b9-43d0-9876-fa3eddcec12d",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN",
                             IsPublish = false
                         });
+                });
+
+            modelBuilder.Entity("Entity.Model.User", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
