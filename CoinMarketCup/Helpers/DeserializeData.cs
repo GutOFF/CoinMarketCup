@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace CoinMarketCup.Helpers
 {
@@ -11,7 +7,7 @@ namespace CoinMarketCup.Helpers
         public T Deserialize(string dataJson)
         {
             var data = JsonConvert.DeserializeObject<T>(dataJson, new JsonSerializerSettings()
-                { NullValueHandling = NullValueHandling.Ignore });
+                { NullValueHandling = NullValueHandling.Ignore});
             return data;
         } 
      

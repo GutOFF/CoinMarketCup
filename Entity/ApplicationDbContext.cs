@@ -14,6 +14,7 @@ namespace Entity
         }
 
         public DbSet<Role> RolesRole { get; set; }
+        public DbSet<Cryptocurrency> Cryptocurrencies { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

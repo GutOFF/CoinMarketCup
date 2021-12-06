@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoinMarketCup.Extension;
 using CoinMarketCup.Logger;
+using CoinMarketCup.Profile;
 using Entity;
 using Entity.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -53,7 +54,8 @@ namespace CoinMarketCup
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
-
+            services
+                .AddAutoMapper(typeof(MappingProfile));
 
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>

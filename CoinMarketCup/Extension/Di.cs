@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CoinMarketCup.API;
 using CoinMarketCup.Helpers;
 using CoinMarketCup.Repository;
 using CoinMarketCup.Service;
@@ -16,7 +13,7 @@ namespace CoinMarketCup.Extension
             #region Repository
 
             services.AddTransient<RoleRepository>();
-
+            services.AddScoped<RoleRepository>();
             #endregion
 
             #region Service
@@ -31,6 +28,8 @@ namespace CoinMarketCup.Extension
             services.AddTransient<CoinMarketCupHelpers>();
 
             #endregion
+
+            services.AddTransient<CallCoinMarketCup>();
         }
     }
 }
