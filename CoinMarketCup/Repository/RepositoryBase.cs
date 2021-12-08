@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoinMarketCup.Interface;
+﻿using CoinMarketCup.Interface;
 using Entity;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CoinMarketCup.Repository
 {
@@ -40,6 +38,12 @@ namespace CoinMarketCup.Repository
         {
              Context.Set<T>().Remove(entity);
              await Context.SaveChangesAsync();
+        }
+
+        public async Task AddRange(IEnumerable<T> entity)
+        {
+            await Context.Set<T>().AddRangeAsync(entity);
+            await Context.SaveChangesAsync();
         }
     }
 }

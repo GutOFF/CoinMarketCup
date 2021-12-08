@@ -30,13 +30,14 @@ namespace CoinMarketCup.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginRequest loginRequest)
         {
+            
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("Error", "Invalid user email or password");
                 return View(loginRequest);
             }
 
-            await _coinMarketCupService.GetInformationQuotes();
+            await _coinMarketCupService.GetOrCreateCryptocurrencies();
             var result = await _loginService.Login(loginRequest);
             
             if (result.IsTrue)

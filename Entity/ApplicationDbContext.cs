@@ -27,6 +27,10 @@ namespace Entity
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole, superAdminRole });
 
+            modelBuilder.Entity<Cryptocurrency>()
+                .Property(b => b.DateAdded)
+                .HasDefaultValueSql("GETUTCDATE()");
+
             base.OnModelCreating(modelBuilder);
         }
 

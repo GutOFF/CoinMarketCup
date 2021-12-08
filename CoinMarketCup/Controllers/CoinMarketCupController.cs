@@ -15,7 +15,7 @@ namespace CoinMarketCup.Controllers
         [HttpGet("get-information-quotes")]
         public IActionResult GetInformationQuotes()
         {
-            var result = _coinMarketCupService.GetInformationQuotes();
+            var result = _coinMarketCupService.GetCryptocurrencies();
             return View(result);
         }
 
