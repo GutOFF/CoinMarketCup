@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CoinMarketCup.Models;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace CoinMarketCup.Service
@@ -28,7 +29,7 @@ namespace CoinMarketCup.Service
             _cache = cache;
         }
 
-        public async Task<Return<Cryptocurrency>> GetOrCreateCryptocurrencies()
+        public async Task<Return<List<Cryptocurrency>>> GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo)
         {
 
             if (await _coinMarketRepository.IsExpiryDateExpired())
@@ -37,7 +38,9 @@ namespace CoinMarketCup.Service
                 await DateRecord();
             }
 
-            return Return<Cryptocurrency>.ReturnSuccessfully(await _coinMarketRepository.GetById("1"));
+            var result = await _coinMarketRepository.GetCryptocurrency(paginatorInfo);
+
+            return Return<List<Cryptocurrency>>.ReturnSuccessfully(result);
 
         }
 
@@ -52,10 +55,10 @@ namespace CoinMarketCup.Service
 
             await _coinMarketRepository.AddRange(cryptocurrency.Information);
            
-            _cache.Set(nameof(Cryptocurrency),cryptocurrency.Information, new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
-            });
+            //_cache.Set(nameof(Cryptocurrency),cryptocurrency.Information, new MemoryCacheEntryOptions
+            //{
+            //    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            //});
 
             return true;
         }

@@ -18,6 +18,7 @@ namespace CoinMarketCup.Profile
             CreateMap<CryptoCurrencyMetadataRequest, Cryptocurrency>()
                 .ForMember(desk => desk.Logo, opt => opt.MapFrom(src => src.Logo));
 
+
         }
     }
 }

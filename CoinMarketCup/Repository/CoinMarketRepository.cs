@@ -1,9 +1,10 @@
-﻿using Entity;
+﻿using CoinMarketCup.Extension;
+using CoinMarketCup.Models;
+using Entity;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoinMarketCup.Repository
@@ -19,7 +20,7 @@ namespace CoinMarketCup.Repository
         {
             var cryptocurrency = await Context.Cryptocurrencies.FirstOrDefaultAsync();
 
-            if (cryptocurrency is null) 
+            if (cryptocurrency is null)
             {
                 return;
             }
@@ -40,7 +41,13 @@ namespace CoinMarketCup.Repository
             return timeExpire < cryptocurrency.DateAdded;
         }
 
-
+        public Task<List<Cryptocurrency>> GetCryptocurrency(PaginatorInfoModel paginatorInfoModel)
+        {
+            return Context
+                 .Cryptocurrencies
+                 .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage)
+                 .ToListAsync();
+        }
 
     }
 }
