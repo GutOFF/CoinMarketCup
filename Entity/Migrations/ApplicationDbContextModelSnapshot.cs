@@ -24,11 +24,13 @@ namespace Entity.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTimeOffset>("DateAdded")
+                    b.Property<DateTime>("DateAdded")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset")
+                        .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime>("LastUpdated")
@@ -274,24 +276,24 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "efcbca60-fdb9-4210-8cb0-c4b04c9f6ec1",
-                            ConcurrencyStamp = "6a4ae3c6-a7f4-43f2-8e81-053d0de44faf",
+                            Id = "bccdce6d-9ad4-4f65-9166-7bdfbb2b6bfb",
+                            ConcurrencyStamp = "bb71b8dd-264e-4602-87fb-be136ada7d97",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             IsPublish = true
                         },
                         new
                         {
-                            Id = "1a2adfc7-dad2-4e52-ad9e-9773374c8240",
-                            ConcurrencyStamp = "5604ea0e-5d34-4468-b1c9-6bf5f6737076",
+                            Id = "5d06e3e5-68e0-49cd-82a9-0d0030022967",
+                            ConcurrencyStamp = "c5a40eaa-39bf-4bd0-bc79-bec444115d87",
                             Name = "User",
                             NormalizedName = "USER",
                             IsPublish = true
                         },
                         new
                         {
-                            Id = "bfff1aeb-19c9-4185-956d-e8ba0378769d",
-                            ConcurrencyStamp = "27eb1c45-1888-464b-9662-726ee1110946",
+                            Id = "a90c61d6-c4e4-4b46-9b10-e50b42093815",
+                            ConcurrencyStamp = "65a807da-15ec-49f4-a348-4a50e88c06be",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN",
                             IsPublish = false

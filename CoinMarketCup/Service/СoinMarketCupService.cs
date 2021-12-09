@@ -3,12 +3,13 @@ using AutoMapper;
 using CoinMarketCup.API;
 using CoinMarketCup.Models.Request.CoinMarketCupRequest;
 using CoinMarketCup.Monad;
+using CoinMarketCup.Repository;
 using Entity.Model;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoinMarketCup.Repository;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace CoinMarketCup.Service
 {
@@ -17,21 +18,25 @@ namespace CoinMarketCup.Service
         private readonly CallCoinMarketCup _callCoinMarketCup;
         private readonly IMapper _mapper;
         private readonly CoinMarketRepository _coinMarketRepository;
+        private IMemoryCache _cache;
 
-        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, IMapper mapper, CoinMarketRepository coinMarketRepository)
+        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, IMapper mapper, CoinMarketRepository coinMarketRepository, IMemoryCache cache)
         {
             _callCoinMarketCup = coinMarketCupHelpers;
             _mapper = mapper;
             _coinMarketRepository = coinMarketRepository;
+            _cache = cache;
         }
 
         public async Task<Return<Cryptocurrency>> GetOrCreateCryptocurrencies()
         {
+
             if (await _coinMarketRepository.IsExpiryDateExpired())
             {
+                await _coinMarketRepository.DeleteAllDate();
                 await DateRecord();
             }
-            await DateRecord();
+
             return Return<Cryptocurrency>.ReturnSuccessfully(await _coinMarketRepository.GetById("1"));
 
         }
@@ -45,17 +50,12 @@ namespace CoinMarketCup.Service
                 return false;
             }
 
-            try
-            {
-
-                await _coinMarketRepository.AddRange(cryptocurrency.Information);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            await _coinMarketRepository.AddRange(cryptocurrency.Information);
            
+            _cache.Set(nameof(Cryptocurrency),cryptocurrency.Information, new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(5)
+            });
 
             return true;
         }
@@ -129,7 +129,6 @@ namespace CoinMarketCup.Service
             {
                 listCryptocurrency.Add(new Cryptocurrency()
                 {
-                    Id = item.Id,
                     Name = item.Name,
                     Symbol = item.Symbol,
                     Logo = metadataRequest.Data[item.Id.ToString()].Logo,

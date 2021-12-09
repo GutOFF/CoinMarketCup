@@ -13,6 +13,6 @@ namespace Entity.Model
         public decimal PercentChange24H { get; set; }
         public decimal MarketCap { get; set; }
         public DateTime LastUpdated { get; set; }
-        public DateTimeOffset DateAdded { get; set; }
+        public DateTime DateAdded { get; set; }
     }
 }

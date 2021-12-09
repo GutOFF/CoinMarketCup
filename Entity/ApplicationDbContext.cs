@@ -30,6 +30,9 @@ namespace Entity
             modelBuilder.Entity<Cryptocurrency>()
                 .Property(b => b.DateAdded)
                 .HasDefaultValueSql("GETUTCDATE()");
+            modelBuilder.Entity<Cryptocurrency>()
+                .Property(b => b.Id)
+                .UseIdentityColumn();
 
             base.OnModelCreating(modelBuilder);
         }

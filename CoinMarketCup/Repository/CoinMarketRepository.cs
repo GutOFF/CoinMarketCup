@@ -1,9 +1,10 @@
-﻿using System;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Entity;
+﻿using Entity;
 using Entity.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CoinMarketCup.Repository
 {
@@ -14,13 +15,25 @@ namespace CoinMarketCup.Repository
 
         }
 
+        public async Task DeleteAllDate()
+        {
+            var cryptocurrency = await Context.Cryptocurrencies.FirstOrDefaultAsync();
+
+            if (cryptocurrency is null) 
+            {
+                return;
+            }
+
+            await Context.Database.ExecuteSqlInterpolatedAsync($"TRUNCATE TABLE {nameof(Context.Cryptocurrencies)}");
+            await Context.SaveChangesAsync();
+        }
         public async Task<bool> IsExpiryDateExpired()
         {
             var cryptocurrency = await Context.Cryptocurrencies
                 .FirstOrDefaultAsync();
 
             if (cryptocurrency == null) return true;
-            var timeExpire = DateTimeOffset
+            var timeExpire = DateTime
                 .UtcNow
                 .AddMinutes(5);
 

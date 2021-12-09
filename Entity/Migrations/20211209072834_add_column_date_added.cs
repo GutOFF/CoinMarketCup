@@ -22,27 +22,27 @@ namespace Entity.Migrations
                 keyColumn: "Id",
                 keyValue: "dd7237e5-b320-4e12-9961-ce7e9f7bbf7c");
 
-            migrationBuilder.AddColumn<DateTimeOffset>(
+            migrationBuilder.AddColumn<DateTime>(
                 name: "DateAdded",
                 table: "Cryptocurrencies",
-                type: "datetimeoffset",
+                type: "datetime2",
                 nullable: false,
                 defaultValueSql: "GETUTCDATE()");
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "IsPublish", "Name", "NormalizedName" },
-                values: new object[] { "efcbca60-fdb9-4210-8cb0-c4b04c9f6ec1", "6a4ae3c6-a7f4-43f2-8e81-053d0de44faf", "Role", true, "Admin", "ADMIN" });
+                values: new object[] { "bccdce6d-9ad4-4f65-9166-7bdfbb2b6bfb", "bb71b8dd-264e-4602-87fb-be136ada7d97", "Role", true, "Admin", "ADMIN" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "IsPublish", "Name", "NormalizedName" },
-                values: new object[] { "1a2adfc7-dad2-4e52-ad9e-9773374c8240", "5604ea0e-5d34-4468-b1c9-6bf5f6737076", "Role", true, "User", "USER" });
+                values: new object[] { "5d06e3e5-68e0-49cd-82a9-0d0030022967", "c5a40eaa-39bf-4bd0-bc79-bec444115d87", "Role", true, "User", "USER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "IsPublish", "Name", "NormalizedName" },
-                values: new object[] { "bfff1aeb-19c9-4185-956d-e8ba0378769d", "27eb1c45-1888-464b-9662-726ee1110946", "Role", false, "SuperAdmin", "SUPERADMIN" });
+                values: new object[] { "a90c61d6-c4e4-4b46-9b10-e50b42093815", "65a807da-15ec-49f4-a348-4a50e88c06be", "Role", false, "SuperAdmin", "SUPERADMIN" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -50,17 +50,17 @@ namespace Entity.Migrations
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "1a2adfc7-dad2-4e52-ad9e-9773374c8240");
+                keyValue: "5d06e3e5-68e0-49cd-82a9-0d0030022967");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "bfff1aeb-19c9-4185-956d-e8ba0378769d");
+                keyValue: "a90c61d6-c4e4-4b46-9b10-e50b42093815");
 
             migrationBuilder.DeleteData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
-                keyValue: "efcbca60-fdb9-4210-8cb0-c4b04c9f6ec1");
+                keyValue: "bccdce6d-9ad4-4f65-9166-7bdfbb2b6bfb");
 
             migrationBuilder.DropColumn(
                 name: "DateAdded",
