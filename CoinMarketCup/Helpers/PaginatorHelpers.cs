@@ -25,7 +25,7 @@ namespace CoinMarketCup.Helpers
 
         public string PageAction { get; set; }
 
-        public string SortOrder { get; set; }
+        public SortState SortOrder { get; set; }
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {

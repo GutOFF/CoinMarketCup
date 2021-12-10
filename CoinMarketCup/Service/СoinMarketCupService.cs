@@ -7,6 +7,7 @@ using CoinMarketCup.Repository;
 using Entity.Model;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using CoinMarketCup.Models;
@@ -29,7 +30,7 @@ namespace CoinMarketCup.Service
             _cache = cache;
         }
 
-        public async Task<Return<List<Cryptocurrency>>> GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo)
+        public async Task<Return<List<Cryptocurrency>>> GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo, SortState sortState)
         {
 
             if (await _coinMarketRepository.IsExpiryDateExpired())
@@ -38,7 +39,7 @@ namespace CoinMarketCup.Service
                 await DateRecord();
             }
 
-            var result = await _coinMarketRepository.GetCryptocurrency(paginatorInfo);
+            var result = await _coinMarketRepository.GetCryptocurrency(paginatorInfo, sortState);
 
             return Return<List<Cryptocurrency>>.ReturnSuccessfully(result);
 
@@ -92,7 +93,7 @@ namespace CoinMarketCup.Service
                 return Return<MetadataRequest>
                     .ReturnSuccessfully(await _callCoinMarketCup.GetCryptoCurrencyMetadata(id));
             }
-            catch
+            catch(Exception e)
             {
                 return Return<MetadataRequest>.ReturnFail("error");
             }

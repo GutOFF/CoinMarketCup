@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoinMarketCup.Models.Request.CoinMarketCupRequest;
+﻿using CoinMarketCup.Models.Request.CoinMarketCupRequest;
 
 namespace CoinMarketCup.Models.Dto
 {

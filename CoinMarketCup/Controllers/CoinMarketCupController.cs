@@ -1,7 +1,9 @@
 ﻿using System.Threading.Tasks;
 using AutoMapper;
 using CoinMarketCup.Models;
+using CoinMarketCup.Models.Dto;
 using CoinMarketCup.Service;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CoinMarketCup.Controllers
@@ -9,17 +11,17 @@ namespace CoinMarketCup.Controllers
     public class CoinMarketCupController : Controller
     {
         private readonly CoinMarketCupService _coinMarketCupService;
-        private readonly IMapper _mapper;
- 
-        public CoinMarketCupController(CoinMarketCupService coinMarketCupService, int pageSize, IMapper mapper)
+
+        public CoinMarketCupController(CoinMarketCupService coinMarketCupService)
         {
             _coinMarketCupService = coinMarketCupService;
-            _mapper = mapper;
         }
 
-        [HttpGet("get-information-quotes")]
-        public async Task<IActionResult> GetInformationQuotes(string sortOrder = "market_cap", int page = 1)
+     [AllowAnonymous]
+        public async Task<IActionResult> GetInformationQuotes(SortState sortOrder = SortState.MarketCap, int page = 1)
         {
+            
+            
             var infoPaginator = new PaginatorInfoModel()
             {
                 PageSize = 20,
@@ -27,15 +29,22 @@ namespace CoinMarketCup.Controllers
                 TotalItems = 5000
             };
 
-            var result = await _coinMarketCupService.GetOrCreateCryptocurrencies(infoPaginator);
+            var result = await _coinMarketCupService.GetOrCreateCryptocurrencies(infoPaginator, sortOrder);
           
             if (!result.IsTrue)
             {
                 return BadRequest();
             }
 
-            //_mapper.Map<>()
-            return View(result);
+            var model = new QuotePageDto()
+            {
+                Cryptocurrencies = result.Information,
+                Info = infoPaginator
+            };
+
+            ViewBag.SortOrder = sortOrder;
+
+            return View(model);
         }
 
     }

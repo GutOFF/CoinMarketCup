@@ -37,7 +37,6 @@ namespace CoinMarketCup.Controllers
                 return View(loginRequest);
             }
 
-            await _coinMarketCupService.GetOrCreateCryptocurrencies();
             var result = await _loginService.Login(loginRequest);
             
             if (result.IsTrue)

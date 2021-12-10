@@ -13,7 +13,7 @@ namespace CoinMarketCup.API
     public class CallCoinMarketCup
     {
         private static string API_KEY = "10c2408c-f3fd-4c1e-801e-b97ba3bba899";
-        private const int Limit = 5;
+        private const int Limit = 101;
 
         public async Task<ListingLatestRequest> GetCryptoCurrencyListing()
         {

@@ -1,0 +1,115 @@
+﻿@model CoinMarketCup.Models.Dto.QuotePageDto
+
+<a class="btn btn-block btn-secondary"
+   asp-controller="Account"
+   asp-action="Logout">Выход</a>
+
+<div class="btn-group group">
+    <div class="form-group" style="margin-right: 10px">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.NameAsc">Sort by name ask</a>
+    </div>
+    <div class="form-group" style="margin-right: 10px">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.NameDesc">Sort by name desk</a>
+    </div>
+    <div class="form-group">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.DateAsk">Sort by date added ask</a>
+    </div>
+    <div class="form-group">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.DateDesk">Sort by date added desk</a>
+    </div>
+    <div class="form-group">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.PriceAsk">Sort by price ask</a>
+    </div>
+    <div class="form-group">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.PriceDesk">Sort by price desk</a>
+    </div>
+    <div class="form-group">
+        <a class="btn btn-block btn-secondary"
+           asp-controller="CoinMarketCup"
+           asp-action="GetInformationQuotes"
+           asp-route-sortOrder="@SortState.MarketCap">Sort by market cup</a>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(modelItem => modelItem.Cryptocurrencies[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].Symbol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].Logo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].PercentChange1H)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].PercentChange24H)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].MarketCap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cryptocurrencies[0].LastUpdated)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Cryptocurrencies)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Symbol)
+                </td>
+                <td>
+                    <img src="@item.Logo">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentChange1H)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PercentChange24H)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MarketCap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastUpdated)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div page-model="@Model.Info" sort-order=@ViewBag.SortOrder page-action="GetInformationQuotes"></div>

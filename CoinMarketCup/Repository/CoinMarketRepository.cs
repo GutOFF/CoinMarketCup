@@ -5,6 +5,7 @@ using Entity.Model;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoinMarketCup.Repository
@@ -25,7 +26,7 @@ namespace CoinMarketCup.Repository
                 return;
             }
 
-            await Context.Database.ExecuteSqlInterpolatedAsync($"TRUNCATE TABLE {nameof(Context.Cryptocurrencies)}");
+            await Context.Database.ExecuteSqlInterpolatedAsync($"TRUNCATE TABLE Cryptocurrencies");
             await Context.SaveChangesAsync();
         }
         public async Task<bool> IsExpiryDateExpired()
@@ -34,19 +35,59 @@ namespace CoinMarketCup.Repository
                 .FirstOrDefaultAsync();
 
             if (cryptocurrency == null) return true;
-            var timeExpire = DateTime
-                .UtcNow
+            var timeExpire = cryptocurrency
+                .DateAdded
                 .AddMinutes(5);
 
-            return timeExpire < cryptocurrency.DateAdded;
+            return timeExpire <= DateTime.UtcNow;
         }
 
-        public Task<List<Cryptocurrency>> GetCryptocurrency(PaginatorInfoModel paginatorInfoModel)
+        public Task<List<Cryptocurrency>> GetCryptocurrency(PaginatorInfoModel paginatorInfoModel, SortState sortState)
         {
-            return Context
-                 .Cryptocurrencies
-                 .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage)
-                 .ToListAsync();
+            switch (sortState)
+            {
+                case SortState.DateAsk:
+                    return Context
+                        .Cryptocurrencies
+                        .OrderBy(w => w.LastUpdated)
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage-1)
+                        .ToListAsync();
+                case SortState.DateDesk:
+                    return Context
+                        .Cryptocurrencies
+                        .OrderByDescending(w=> w.LastUpdated)
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage-1)
+                        .ToListAsync();
+                case SortState.NameAsc:
+                    return Context
+                        .Cryptocurrencies
+                        .OrderBy(w=> w.Name)
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage-1)
+                        .ToListAsync();
+                case SortState.NameDesc:
+                    return Context
+                        .Cryptocurrencies
+                        .OrderByDescending(w=> w.Name)
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage-1)
+                        .ToListAsync();
+                case SortState.PriceAsk:
+                    return Context
+                        .Cryptocurrencies
+                        .OrderBy(w=> w.Price)
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage)
+                        .ToListAsync();
+                case SortState.PriceDesk:
+                    return Context
+                        .Cryptocurrencies
+                        .OrderByDescending(w=> w.Price)
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage-1)
+                        .ToListAsync();
+                default:
+                    return Context
+                        .Cryptocurrencies
+                        .Page(paginatorInfoModel.PageSize, paginatorInfoModel.CurrentPage-1)
+                        .ToListAsync();
+            }
         }
 
     }
