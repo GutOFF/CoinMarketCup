@@ -6,5 +6,6 @@ namespace CoinMarketCup.Models.Request.CoinMarketCupRequest
     {
         public StatusRequest Status { get; set; }
         public Dictionary<string, CryptoCurrencyMetadataRequest> Data { get; set; }
+
     }
 }

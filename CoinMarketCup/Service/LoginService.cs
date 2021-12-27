@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using CoinMarketCup.Models.Request;
+﻿using CoinMarketCup.Models.Request;
 using CoinMarketCup.Monad;
 using CoinMarketCup.Repository;
 using Entity.Model;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System.Threading.Tasks;
 
 namespace CoinMarketCup.Service
 {

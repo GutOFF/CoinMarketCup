@@ -39,7 +39,7 @@ namespace CoinMarketCup.Controllers
 
             var result = await _loginService.Login(loginRequest);
             
-            if (result.IsTrue)
+            if (result.IsSuccessfully)
             {
                 RedirectToAction("Index", "Home");
             }
@@ -64,7 +64,7 @@ namespace CoinMarketCup.Controllers
 
             var result = await _loginService.Registration(registrationRequest);
            
-            if (result.IsTrue)
+            if (result.IsSuccessfully)
             {
                 return RedirectToAction("Login", "Account");
             }

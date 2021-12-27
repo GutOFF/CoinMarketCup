@@ -1,5 +1,3 @@
-using System;
-
 namespace CoinMarketCup.Models
 {
     public class ErrorViewModel

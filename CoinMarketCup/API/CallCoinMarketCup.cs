@@ -12,8 +12,8 @@ namespace CoinMarketCup.API
 {
     public class CallCoinMarketCup
     {
-        private static string API_KEY = "10c2408c-f3fd-4c1e-801e-b97ba3bba899";
-        private const int Limit = 101;
+        private const string API_KEY = "10c2408c-f3fd-4c1e-801e-b97ba3bba899";
+        private const int Limit = 100;
 
         public async Task<ListingLatestRequest> GetCryptoCurrencyListing()
         {
@@ -46,7 +46,7 @@ namespace CoinMarketCup.API
             return deserializeDate.Deserialize(stringJson);
         }
 
-        private async Task<string> Call(UriBuilder urlBuilder)
+        private static async Task<string> Call(UriBuilder urlBuilder)
         {
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders

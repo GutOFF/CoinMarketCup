@@ -6,7 +6,7 @@
         {
             return new Return<T>
             {
-                IsTrue = true,
+                IsSuccessfully = true,
                 Information = information
             };
         }
@@ -15,7 +15,7 @@
             return new Return<T>
             {
                 Error = error,
-                IsTrue = false
+                IsSuccessfully = false
             };
         }
     }

@@ -1,5 +1,6 @@
-﻿using System.Linq;
-using CoinMarketCup.Models.Dto;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks.Dataflow;
 using CoinMarketCup.Models.Request.CoinMarketCupRequest;
 using Entity.Model;
 
@@ -17,7 +18,6 @@ namespace CoinMarketCup.Profile
 
             CreateMap<CryptoCurrencyMetadataRequest, Cryptocurrency>()
                 .ForMember(desk => desk.Logo, opt => opt.MapFrom(src => src.Logo));
-
 
         }
     }

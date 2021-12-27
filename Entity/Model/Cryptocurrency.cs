@@ -5,6 +5,7 @@ namespace Entity.Model
     public class Cryptocurrency
     {
         public int Id { get; set; }
+        public int CoinMarketCupId { get; set; }
         public string Name { get; set; }
         public string Logo { get; set; }
         public string Symbol { get; set; }

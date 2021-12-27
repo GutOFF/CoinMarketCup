@@ -1,10 +1,9 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
-using CoinMarketCup.Models;
+﻿using CoinMarketCup.Models;
 using CoinMarketCup.Models.Dto;
 using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CoinMarketCup.Controllers
 {
@@ -20,8 +19,6 @@ namespace CoinMarketCup.Controllers
      [AllowAnonymous]
         public async Task<IActionResult> GetInformationQuotes(SortState sortOrder = SortState.MarketCap, int page = 1)
         {
-            
-            
             var infoPaginator = new PaginatorInfoModel()
             {
                 PageSize = 20,
@@ -31,9 +28,9 @@ namespace CoinMarketCup.Controllers
 
             var result = await _coinMarketCupService.GetOrCreateCryptocurrencies(infoPaginator, sortOrder);
           
-            if (!result.IsTrue)
+            if (!result.IsSuccessfully)
             {
-                return BadRequest();
+                return View("Error");    
             }
 
             var model = new QuotePageDto()

@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace CoinMarketCup.Extension
 {
-    static class PagingUtils
+    internal static class PagingUtils
     {
         public static IEnumerable<T> Page<T>(this IEnumerable<T> en, int pageSize, int page)
         {

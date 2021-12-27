@@ -34,6 +34,10 @@ namespace Entity
                 .Property(b => b.Id)
                 .UseIdentityColumn();
 
+            modelBuilder.Entity<Cryptocurrency>()
+                .HasIndex(w => w.CoinMarketCupId)
+                .IsUnique();
+
             base.OnModelCreating(modelBuilder);
         }
 
