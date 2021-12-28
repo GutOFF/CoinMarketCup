@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System;
+using AutoMapper;
 using CoinMarketCup.API;
 using CoinMarketCup.Models;
 using CoinMarketCup.Models.Request.CoinMarketCupRequest;
@@ -15,15 +16,15 @@ namespace CoinMarketCup.Service
     public class CoinMarketCupService
     {
         private readonly CallCoinMarketCup _callCoinMarketCup;
-        private readonly IMapper _mapper;
         private readonly CoinMarketRepository _coinMarketRepository;
+        private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
 
 
-        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, IMapper mapper, CoinMarketRepository coinMarketRepository)
+        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, CoinMarketRepository coinMarketRepository, SettingCryptocurrencyRepository settingCryptocurrencyRepository)
         {
             _callCoinMarketCup = coinMarketCupHelpers;
-            _mapper = mapper;
             _coinMarketRepository = coinMarketRepository;
+            _settingCryptocurrencyRepository = settingCryptocurrencyRepository;
         }
 
         public async Task<Return<List<Cryptocurrency>>> GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo, SortState sortState)
@@ -32,14 +33,12 @@ namespace CoinMarketCup.Service
             {
                 await _coinMarketRepository.DeleteAllDate();
 
-                var cryptorency = await GetCryptocurrencies();
+                bool isRecord = await DateRecord();
 
-                if (!cryptorency.IsSuccessfully)
+                if (!isRecord)
                 {
-                    return Return<List<Cryptocurrency>>.ReturnFail("error");
+                    return Return<List<Cryptocurrency>>.ReturnFail("record_fail");
                 }
-
-                await DateRecord(cryptorency.Information);
             }
 
             var result = await _coinMarketRepository.GetCryptocurrencies(paginatorInfo, sortState);
@@ -49,9 +48,17 @@ namespace CoinMarketCup.Service
         }
 
 
-        public async Task DateRecord(List<Cryptocurrency> cryptocurrencies)
+        public async Task<bool> DateRecord()
         {
-            await _coinMarketRepository.AddRange(cryptocurrencies);
+            var cryptocurrencies = await GetCryptocurrencies();
+
+            if (!cryptocurrencies.IsSuccessfully)
+            {
+                return false;
+            }
+            await _coinMarketRepository.AddRange(cryptocurrencies.Information);
+
+            return true;
         }
 
         public async Task<Return<List<Cryptocurrency>>> GetCryptocurrencies()
@@ -63,16 +70,12 @@ namespace CoinMarketCup.Service
                 return Return<List<Cryptocurrency>>.ReturnFail(listingLatestRequest.Error);
             }
 
-            var listId = GetIdCoin(listingLatestRequest.Information);
+            var listId = await GetIdCoin(listingLatestRequest.Information);
 
             var metadataRequest = await GetMetadata(listId);
 
-            if (!metadataRequest.IsSuccessfully)
-            {
-                return Return<List<Cryptocurrency>>.ReturnFail(listingLatestRequest.Error);
-            }
-
-            return Return<List<Cryptocurrency>>.ReturnSuccessfully(ObjectShapingCryptocurrencies(listingLatestRequest.Information, metadataRequest.Information));
+            return !metadataRequest.IsSuccessfully ? Return<List<Cryptocurrency>>.ReturnFail(listingLatestRequest.Error)
+                : Return<List<Cryptocurrency>>.ReturnSuccessfully(await ObjectShapingCryptocurrencies(listingLatestRequest.Information, metadataRequest.Information));
         }
 
         private async Task<Return<MetadataRequest>> GetMetadata(IEnumerable<string> listId)
@@ -86,7 +89,7 @@ namespace CoinMarketCup.Service
                     metadataRequests.Add(await _callCoinMarketCup.GetCryptoCurrencyMetadata(id));
                 }
             }
-            catch
+            catch(Exception e)
             {
                 return Return<MetadataRequest>.ReturnFail("error_get_metadata");
             }
@@ -107,15 +110,17 @@ namespace CoinMarketCup.Service
             }
         }
 
-        private static IEnumerable<string> GetIdCoin(ListingLatestRequest listingLatestRequest)
+        private async Task<IEnumerable<string>> GetIdCoin(ListingLatestRequest listingLatestRequest)
         {
-            int counter = 20;
+            int counter = await _settingCryptocurrencyRepository.GetCountMetadata();
+            int i = await _settingCryptocurrencyRepository.GetCountMetadata();
+
             StringBuilder stringBuilder = new StringBuilder();
             var result = new List<string>();
 
             var listId = listingLatestRequest.Data
                 .Select(x => x.Id.ToString())
-                .GroupBy(w => counter++ / 20)
+                .GroupBy(w => counter++ / i)
                 .Select(w => w.ToArray())
                 .ToList();
 
@@ -129,19 +134,21 @@ namespace CoinMarketCup.Service
             return result;
         }
 
-        private static List<Cryptocurrency> ObjectShapingCryptocurrencies(ListingLatestRequest listingLatestRequest, MetadataRequest metadataRequest)
+        private async Task<List<Cryptocurrency>> ObjectShapingCryptocurrencies(ListingLatestRequest listingLatestRequest, MetadataRequest metadataRequest)
         {
+            string fiatValue = await _settingCryptocurrencyRepository.GetFiatCurrency();
+
             return listingLatestRequest.Data.Select(item => new Cryptocurrency()
             {
                 CoinMarketCupId = item.Id,
                 Name = item.Name,
                 Symbol = item.Symbol,
                 Logo = metadataRequest.Data[item.Id.ToString()].Logo,
-                LastUpdated = item.Quote["USD"].LastUpdated,
-                MarketCap = item.Quote["USD"].MarketCap,
-                PercentChange1H = item.Quote["USD"].PercentChange1H,
-                PercentChange24H = item.Quote["USD"].PercentChange24H,
-                Price = item.Quote["USD"].Price
+                LastUpdated = item.Quote[fiatValue].LastUpdated,
+                MarketCap = item.Quote[fiatValue].MarketCap,
+                PercentChange1H = item.Quote[fiatValue].PercentChange1H,
+                PercentChange24H = item.Quote[fiatValue].PercentChange24H,
+                Price = item.Quote[fiatValue].Price
             })
                 .ToList();
         }

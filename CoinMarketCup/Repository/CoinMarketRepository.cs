@@ -12,9 +12,10 @@ namespace CoinMarketCup.Repository
 {
     public class CoinMarketRepository : RepositoryBase<Cryptocurrency>
     {
-        public CoinMarketRepository(ApplicationDbContext context) : base(context)
+        private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
+        public CoinMarketRepository(ApplicationDbContext context, SettingCryptocurrencyRepository settingCryptocurrencyRepository) : base(context)
         {
-
+            _settingCryptocurrencyRepository = settingCryptocurrencyRepository;
         }
 
         public async Task DeleteAllDate()
@@ -37,7 +38,7 @@ namespace CoinMarketCup.Repository
             if (cryptocurrencies == null) return true;
             var timeExpire = cryptocurrencies
                 .DateAdded
-                .AddMinutes(5);
+                .AddMinutes(await _settingCryptocurrencyRepository.GetExpiryDateExpired());
 
             return timeExpire <= DateTime.UtcNow;
         }

@@ -12,12 +12,10 @@ namespace CoinMarketCup.Controllers
     public class AccountController : Controller
     {
         private readonly LoginService _loginService;
-        private readonly CoinMarketCupService _coinMarketCupService;
 
-        public AccountController(LoginService loginService, CoinMarketCupService coinMarketCupService)
+        public AccountController(LoginService loginService)
         {
             _loginService = loginService;
-            _coinMarketCupService = coinMarketCupService;
         }
        
         [HttpGet]
@@ -77,7 +75,7 @@ namespace CoinMarketCup.Controllers
         public async Task<IActionResult> Logout()
         {
             var result = await _loginService.Logout();
-            return View(result);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

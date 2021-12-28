@@ -7,20 +7,25 @@ using System.Threading.Tasks;
 using System.Web;
 using CoinMarketCup.Helpers;
 using CoinMarketCup.Models.Request.CoinMarketCupRequest;
+using CoinMarketCup.Repository;
+using Entity.Model;
 
 namespace CoinMarketCup.API
 {
     public class CallCoinMarketCup
     {
-        private const string API_KEY = "10c2408c-f3fd-4c1e-801e-b97ba3bba899";
-        private const int Limit = 100;
+        private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
+        public CallCoinMarketCup(SettingCryptocurrencyRepository settingCryptocurrencyRepository)
+        {
+            _settingCryptocurrencyRepository = settingCryptocurrencyRepository;
+        }
 
         public async Task<ListingLatestRequest> GetCryptoCurrencyListing()
         {
             var url = new UriBuilder("https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest");
             var queryString = HttpUtility.ParseQueryString(string.Empty);
 
-            queryString["limit"] = Limit.ToString();
+            queryString["limit"] = (await _settingCryptocurrencyRepository.GetLimit()).ToString();
 
             url.Query = queryString.ToString() ?? string.Empty;
 
@@ -46,7 +51,7 @@ namespace CoinMarketCup.API
             return deserializeDate.Deserialize(stringJson);
         }
 
-        private static async Task<string> Call(UriBuilder urlBuilder)
+        private  async Task<string> Call(UriBuilder urlBuilder)
         {
             using HttpClient httpClient = new HttpClient();
             httpClient.DefaultRequestHeaders
@@ -54,12 +59,13 @@ namespace CoinMarketCup.API
                 .Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             httpClient.DefaultRequestHeaders
-                .Add("X-CMC_PRO_API_KEY", API_KEY);
+                .Add("X-CMC_PRO_API_KEY", await _settingCryptocurrencyRepository.GetApiKey());
 
             httpClient.BaseAddress = urlBuilder.Uri;
             var stringJson = await httpClient.GetStringAsync(urlBuilder.ToString());
             return stringJson;
         }
 
+      
     }
 }

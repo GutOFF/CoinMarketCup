@@ -15,6 +15,7 @@ namespace CoinMarketCup.Extension
             services.AddTransient<RoleRepository>();
             services.AddScoped<RoleRepository>();
             services.AddTransient<CoinMarketRepository>();
+            services.AddTransient<SettingCryptocurrencyRepository>();
             #endregion
 
             #region Service

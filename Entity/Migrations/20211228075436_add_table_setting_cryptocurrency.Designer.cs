@@ -4,14 +4,16 @@ using Entity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Entity.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211228075436_add_table_setting_cryptocurrency")]
+    partial class add_table_setting_cryptocurrency
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,9 +83,6 @@ namespace Entity.Migrations
                     b.Property<int>("ExpiryDateExpired")
                         .HasColumnType("int");
 
-                    b.Property<string>("FiatCurrency")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
@@ -103,8 +102,7 @@ namespace Entity.Migrations
                             Id = 1,
                             ApiKey = "10c2408c-f3fd-4c1e-801e-b97ba3bba899",
                             ExpiryDateExpired = 5,
-                            FiatCurrency = "USD",
-                            LastUpdateDate = new DateTime(2021, 12, 28, 8, 24, 22, 622, DateTimeKind.Utc).AddTicks(4387),
+                            LastUpdateDate = new DateTime(2021, 12, 28, 7, 54, 36, 102, DateTimeKind.Utc).AddTicks(1272),
                             Limit = 5000,
                             MaxCountMetadata = 1000
                         });
@@ -324,24 +322,24 @@ namespace Entity.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b50865fd-fa79-4205-a633-c20b5b1d9eef",
-                            ConcurrencyStamp = "8ae4d8ac-0d48-4b4b-9038-9f6ea578a7de",
+                            Id = "2d80ce14-c40f-4ec0-b0e8-8215d9d1f5c5",
+                            ConcurrencyStamp = "4b245f0a-fa0d-4cf3-95f1-3834882dfe68",
                             Name = "Admin",
                             NormalizedName = "ADMIN",
                             IsPublish = true
                         },
                         new
                         {
-                            Id = "c4cfc0d5-1384-4289-a71b-1d886ffff5a8",
-                            ConcurrencyStamp = "bf14fe24-0f1c-4919-a822-ff1c31103412",
+                            Id = "2bad56c2-4886-4ec5-ad57-f54efb0d393d",
+                            ConcurrencyStamp = "00e77d06-2572-49de-8dbc-cec6bffa115e",
                             Name = "User",
                             NormalizedName = "USER",
                             IsPublish = true
                         },
                         new
                         {
-                            Id = "b1190ae0-97ae-4c14-b0ec-d69141c28fdd",
-                            ConcurrencyStamp = "597e62c4-0832-49d4-b293-abbb1e38f04c",
+                            Id = "5e7939a4-30c4-44ee-96c9-7b8be4075783",
+                            ConcurrencyStamp = "9abc2e0d-def9-4753-9b39-2c1806364388",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN",
                             IsPublish = false
