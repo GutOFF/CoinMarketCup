@@ -33,13 +33,15 @@ namespace CoinMarketCup.Service
 
         public async Task<Return<List<Cryptocurrency>>> GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo, SortState sortState)
         {
+            _logger.LogInformation("Start get or create cryptocurrencies");
+
             if (await _coinMarketRepository.IsExpiryDateExpired())
             {
                 var cryptocurrencies = await GetCryptocurrencies();
                 
                 if (!cryptocurrencies.IsSuccessfully)
                 {
-                    _logger.LogInformation("Error get cryptocurrencies");
+                    _logger.LogError("Error get cryptocurrencies");
                     return Return<List<Cryptocurrency>>.ReturnFail(cryptocurrencies.Error);
                 }
 
@@ -65,6 +67,8 @@ namespace CoinMarketCup.Service
 
             if (!listingLatestRequest.IsSuccessfully)
             {
+                _logger.LogError($"Listing latest is not successfully" +
+                                 $"error message : {listingLatestRequest.Information.Status.ErrorMessage}");
                 return Return<List<Cryptocurrency>>.ReturnFail(listingLatestRequest.Error);
             }
 
@@ -74,14 +78,21 @@ namespace CoinMarketCup.Service
            
             string fiatValue = await _settingCryptocurrencyRepository.GetFiatCurrency();
 
-            return !metadataRequest.IsSuccessfully 
-                ? Return<List<Cryptocurrency>>.ReturnFail(listingLatestRequest.Error)
-                : Return<List<Cryptocurrency>>.ReturnSuccessfully(CoinMarketCupHelpers.ObjectShapingCryptocurrencies(listingLatestRequest.Information, metadataRequest.Information, fiatValue));
+            if (!metadataRequest.IsSuccessfully)
+            {
+                _logger.LogError($"Metadata is not successfully" +
+                                 $"error message : {metadataRequest.Information.Status.ErrorMessage}");
+                Return<List<Cryptocurrency>>.ReturnFail(listingLatestRequest.Error);
+            }
+
+            return Return<List<Cryptocurrency>>.ReturnSuccessfully(CoinMarketCupHelpers.ObjectShapingCryptocurrencies(listingLatestRequest.Information, metadataRequest.Information, fiatValue));
         }
 
         private async Task<Return<MetadataRequest>> GetMetadata(IEnumerable<string> listId)
         {
             var metadataRequests = new List<MetadataRequest>();
+            
+            _logger.LogInformation("Start get metadata");
 
             try
             {
@@ -92,7 +103,7 @@ namespace CoinMarketCup.Service
             }
             catch(Exception e)
             {
-                _logger.LogInformation(e.ToString());
+                _logger.LogError(e.ToString());
                 return Return<MetadataRequest>.ReturnFail("error_get_metadata");
             }
 
@@ -101,6 +112,8 @@ namespace CoinMarketCup.Service
 
         private async Task<Return<ListingLatestRequest>> GetListingLatest()
         {
+            _logger.LogInformation("Start get listing latest");
+
             try
             {
                 return Return<ListingLatestRequest>
@@ -108,7 +121,7 @@ namespace CoinMarketCup.Service
             }
             catch (Exception e)
             {
-                _logger.LogInformation(e.ToString());
+                _logger.LogError(e.ToString());
                 return Return<ListingLatestRequest>.ReturnFail("error_get_listing_latest");
             }
 
