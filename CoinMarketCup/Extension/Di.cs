@@ -27,7 +27,6 @@ namespace CoinMarketCup.Extension
 
             #region Helpers
 
-            services.AddTransient<CoinMarketCupHelpers>();
 
             #endregion
 
