@@ -1,0 +1,47 @@
+2021-12-28T14:19:17.4416885+05:00  [WRN] No type was specified for the decimal property '"MarketCap"' on entity type '"Cryptocurrency"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType()', specify precision and scale using 'HasPrecision()' or configure a value converter using 'HasConversion()'. (5c92c1c4)
+2021-12-28T14:19:17.4529650+05:00  [WRN] No type was specified for the decimal property '"PercentChange1H"' on entity type '"Cryptocurrency"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType()', specify precision and scale using 'HasPrecision()' or configure a value converter using 'HasConversion()'. (5c92c1c4)
+2021-12-28T14:19:17.4560825+05:00  [WRN] No type was specified for the decimal property '"PercentChange24H"' on entity type '"Cryptocurrency"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType()', specify precision and scale using 'HasPrecision()' or configure a value converter using 'HasConversion()'. (5c92c1c4)
+2021-12-28T14:19:17.4579948+05:00  [WRN] No type was specified for the decimal property '"Price"' on entity type '"Cryptocurrency"'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType()', specify precision and scale using 'HasPrecision()' or configure a value converter using 'HasConversion()'. (5c92c1c4)
+2021-12-28T14:19:18.0757515+05:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-12-28T14:19:18.0779087+05:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-12-28T14:19:18.0803195+05:00  [INF] Content root path: "C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup" (b5d60022)
+2021-12-28T14:19:37.7944669+05:00 80000030-0002-fe00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2021-12-28T14:19:37.9314627+05:00 80000030-0002-fe00-b63f-84710c7967bb [WRN] The query uses the 'First'/'FirstOrDefault' operator without 'OrderBy' and filter operators. This may lead to unpredictable results. (f43d926b)
+2021-12-28T14:19:56.4868168+05:00 80000030-0002-fe00-b63f-84710c7967bb [INF] System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   at CoinMarketCup.API.CallCoinMarketCup.Call(UriBuilder urlBuilder) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\API\CallCoinMarketCup.cs:line 65
+   at CoinMarketCup.API.CallCoinMarketCup.GetCryptoCurrencyMetadata(String id) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\API\CallCoinMarketCup.cs:line 48
+   at CoinMarketCup.Service.CoinMarketCupService.GetMetadata(IEnumerable`1 listId) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 96 (17db0ee6)
+2021-12-28T14:19:59.9287621+05:00 80000030-0002-fe00-b63f-84710c7967bb [INF] System.Net.Http.HttpRequestException: Response status code does not indicate success: 400 (Bad Request).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at System.Net.Http.HttpClient.GetStringAsyncCore(Task`1 getTask)
+   at CoinMarketCup.API.CallCoinMarketCup.Call(UriBuilder urlBuilder) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\API\CallCoinMarketCup.cs:line 65
+   at CoinMarketCup.API.CallCoinMarketCup.GetCryptoCurrencyMetadata(String id) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\API\CallCoinMarketCup.cs:line 48
+   at CoinMarketCup.Service.CoinMarketCupService.GetMetadata(IEnumerable`1 listId) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 96 (17db0ee6)
+2021-12-28T14:20:04.9396723+05:00 80000030-0002-fe00-b63f-84710c7967bb [ERR] An unhandled exception has occurred while executing the request. (48a46595)
+System.Collections.Generic.KeyNotFoundException: The given key '16501' was not present in the dictionary.
+   at System.Collections.Generic.Dictionary`2.get_Item(TKey key)
+   at CoinMarketCup.Service.CoinMarketCupService.<>c__DisplayClass11_0.<ObjectShapingCryptocurrencies>b__0(CryptoCurrencyListingRequest item) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 155
+   at System.Linq.Enumerable.SelectListIterator`2.ToList()
+   at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   at CoinMarketCup.Service.CoinMarketCupService.ObjectShapingCryptocurrencies(ListingLatestRequest listingLatestRequest, MetadataRequest metadataRequest) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 155
+   at CoinMarketCup.Service.CoinMarketCupService.GetCryptocurrencies() in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 82
+   at CoinMarketCup.Service.CoinMarketCupService.DateRecord() in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 58
+   at CoinMarketCup.Service.CoinMarketCupService.GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo, SortState sortState) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Service\СoinMarketCupService.cs:line 41
+   at CoinMarketCup.Controllers.CoinMarketCupController.GetInformationQuotes(SortState sortOrder, Int32 page) in C:\Users\gyhad\source\repos\CoinMarketCup\CoinMarketCup\Controllers\CoinMarketCupController.cs:line 29
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)

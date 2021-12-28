@@ -1,15 +1,16 @@
-﻿using System;
-using AutoMapper;
-using CoinMarketCup.API;
+﻿using CoinMarketCup.API;
 using CoinMarketCup.Models;
 using CoinMarketCup.Models.Request.CoinMarketCupRequest;
 using CoinMarketCup.Monad;
 using CoinMarketCup.Repository;
 using Entity.Model;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 
 namespace CoinMarketCup.Service
 {
@@ -18,13 +19,15 @@ namespace CoinMarketCup.Service
         private readonly CallCoinMarketCup _callCoinMarketCup;
         private readonly CoinMarketRepository _coinMarketRepository;
         private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
+        private readonly ILogger<CoinMarketCupService> _logger;
 
 
-        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, CoinMarketRepository coinMarketRepository, SettingCryptocurrencyRepository settingCryptocurrencyRepository)
+        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, CoinMarketRepository coinMarketRepository, SettingCryptocurrencyRepository settingCryptocurrencyRepository, ILogger<CoinMarketCupService> logger)
         {
             _callCoinMarketCup = coinMarketCupHelpers;
             _coinMarketRepository = coinMarketRepository;
             _settingCryptocurrencyRepository = settingCryptocurrencyRepository;
+            _logger = logger;
         }
 
         public async Task<Return<List<Cryptocurrency>>> GetOrCreateCryptocurrencies(PaginatorInfoModel paginatorInfo, SortState sortState)
@@ -91,6 +94,7 @@ namespace CoinMarketCup.Service
             }
             catch(Exception e)
             {
+                _logger.LogInformation(e.ToString());
                 return Return<MetadataRequest>.ReturnFail("error_get_metadata");
             }
 
@@ -104,12 +108,14 @@ namespace CoinMarketCup.Service
                 return Return<ListingLatestRequest>
                     .ReturnSuccessfully(await _callCoinMarketCup.GetCryptoCurrencyListing());
             }
-            catch
+            catch (Exception e)
             {
+                _logger.LogInformation(e.ToString());
                 return Return<ListingLatestRequest>.ReturnFail("error_get_listing_latest");
             }
-        }
 
+        }
+        
         private async Task<IEnumerable<string>> GetIdCoin(ListingLatestRequest listingLatestRequest)
         {
             int counter = await _settingCryptocurrencyRepository.GetCountMetadata();

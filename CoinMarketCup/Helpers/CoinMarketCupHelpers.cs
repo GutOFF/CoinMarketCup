@@ -1,10 +1,10 @@
 ﻿namespace CoinMarketCup.Helpers
 {
-    public class CoinMarketCupHelpers
+    public static class CoinMarketCupHelpers
     {
-        //public int CalculatingAmountMetadata(int limit)
-        //{
-
-        //}
+        public static int CalculatingAmountMetadata(int maxCountMetadata, int countMetadata)
+        {
+            return 0;
+        }
     }
 }

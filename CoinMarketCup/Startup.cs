@@ -1,23 +1,15 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using CoinMarketCup.Extension;
-using CoinMarketCup.Logger;
 using CoinMarketCup.Profile;
 using Entity;
 using Entity.Model;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace CoinMarketCup
@@ -82,6 +74,7 @@ namespace CoinMarketCup
                 app.UseHsts();
             }
 
+            loggerFactory.AddFile("logs.txt");
             context.Database.Migrate();
 
             app.UseHttpsRedirection();
@@ -93,9 +86,6 @@ namespace CoinMarketCup
 
             app.UseAuthorization();
 
-            //loggerFactory.AddFile(Path.Combine(Directory.GetCurrentDirectory(), "logger.txt"));
-            //var logger = loggerFactory.CreateLogger("FileLogger");
-
             
             app.UseEndpoints(endpoints =>
             {
@@ -104,11 +94,6 @@ namespace CoinMarketCup
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
-            //app.Run(async (httpContext) =>
-            //{
-            //    logger.LogInformation("Processing request {0}", httpContext.Request.Path);
-            //    await httpContext.Response.WriteAsync("test");
-            //});
         }
     }
 }
