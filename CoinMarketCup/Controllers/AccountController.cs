@@ -1,10 +1,8 @@
-﻿using System;
-using CoinMarketCup.Models.Request;
+﻿using CoinMarketCup.Models.Request;
 using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
 namespace CoinMarketCup.Controllers
 {
@@ -52,6 +50,7 @@ namespace CoinMarketCup.Controllers
         }
 
         [HttpPost("registration")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registration(RegistrationRequest registrationRequest)
         {
             if (!ModelState.IsValid)

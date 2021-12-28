@@ -74,7 +74,7 @@ namespace CoinMarketCup
                 app.UseHsts();
             }
 
-            loggerFactory.AddFile("logs.txt");
+            loggerFactory.AddFile("Logs/CoinMarketCupLog-{Date}.txt");
             context.Database.Migrate();
 
             app.UseHttpsRedirection();

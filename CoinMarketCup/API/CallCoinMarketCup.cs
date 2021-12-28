@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using CoinMarketCup.Helpers;
+using CoinMarketCup.Models.Request.CoinMarketCupRequest;
+using CoinMarketCup.Repository;
+using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
-using CoinMarketCup.Helpers;
-using CoinMarketCup.Models.Request.CoinMarketCupRequest;
-using CoinMarketCup.Repository;
-using Entity.Model;
 
 namespace CoinMarketCup.API
 {
