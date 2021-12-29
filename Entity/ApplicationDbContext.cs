@@ -35,7 +35,7 @@ namespace Entity
                     ApiKey = "10c2408c-f3fd-4c1e-801e-b97ba3bba899", 
                     ExpiryDateExpired = 5,
                     LastUpdateDate = DateTime.UtcNow, 
-                    Limit = 5000, 
+                    Limit = 2500, 
                     MaxCountMetadata = 1000,
                     FiatCurrency = "USD"
                 });
@@ -55,9 +55,5 @@ namespace Entity
             base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
     }
 }

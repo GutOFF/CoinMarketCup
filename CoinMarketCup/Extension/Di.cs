@@ -1,5 +1,6 @@
 ﻿using CoinMarketCup.API;
 using CoinMarketCup.Helpers;
+using CoinMarketCup.Interface;
 using CoinMarketCup.Repository;
 using CoinMarketCup.Service;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ namespace CoinMarketCup.Extension
 
 
             services.AddTransient<LoginService>();
-            services.AddTransient<CoinMarketCupService>();
+            services.AddTransient<ICoinMarketCupService, CoinMarketCupService>();
 
      
             services.AddTransient<CallCoinMarketCup>();

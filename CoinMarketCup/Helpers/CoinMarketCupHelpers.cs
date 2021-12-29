@@ -27,7 +27,6 @@ namespace CoinMarketCup.Helpers
 
         public static List<Cryptocurrency> ObjectShapingCryptocurrencies(ListingLatestRequest listingLatestRequest, MetadataRequest metadataRequest, string fiatValue)
         {
-            
             return listingLatestRequest.Data.Select(item => new Cryptocurrency()
                 {
                     CoinMarketCupId = item.Id,

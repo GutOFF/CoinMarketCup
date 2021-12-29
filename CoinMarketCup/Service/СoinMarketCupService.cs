@@ -11,11 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CoinMarketCup.Helpers;
+using CoinMarketCup.Interface;
 
 
 namespace CoinMarketCup.Service
 {
-    public class CoinMarketCupService
+    public class CoinMarketCupService : ICoinMarketCupService
     {
         private readonly CallCoinMarketCup _callCoinMarketCup;
         private readonly CoinMarketRepository _coinMarketRepository;
@@ -37,7 +38,7 @@ namespace CoinMarketCup.Service
 
             if (await _coinMarketRepository.IsExpiryDateExpired())
             {
-                var cryptocurrencies = await GetCryptocurrencies();
+                var cryptocurrencies = await GetCryptocurrenciesOnApi();
                 
                 if (!cryptocurrencies.IsSuccessfully)
                 {
@@ -45,9 +46,7 @@ namespace CoinMarketCup.Service
                     return Return<List<Cryptocurrency>>.ReturnFail(cryptocurrencies.Error);
                 }
 
-                await _coinMarketRepository.DeleteAllDate();
-
-                await DateRecord(cryptocurrencies.Information);
+                await UpdateOrCreateDate(cryptocurrencies.Information);
             }
 
             var result = await _coinMarketRepository.GetCryptocurrencies(paginatorInfo, sortState);
@@ -56,14 +55,15 @@ namespace CoinMarketCup.Service
 
         }
 
-        public async Task DateRecord(List<Cryptocurrency> cryptocurrencies)
+        public async Task UpdateOrCreateDate(List<Cryptocurrency> cryptocurrencies)
         {
-            await _coinMarketRepository.AddRange(cryptocurrencies);
+            _logger.LogInformation("Start update date");
+            await _coinMarketRepository.UpdateOrCreateDate(cryptocurrencies);
         }
 
-        public async Task<Return<List<Cryptocurrency>>> GetCryptocurrencies()
+        public async Task<Return<List<Cryptocurrency>>> GetCryptocurrenciesOnApi()
         {
-            var listingLatestRequest = await GetListingLatest();
+            var listingLatestRequest = await GetListingLatestOnApi();
 
             if (!listingLatestRequest.IsSuccessfully)
             {
@@ -74,7 +74,7 @@ namespace CoinMarketCup.Service
 
             var listId = await GetIdCoin(listingLatestRequest.Information);
 
-            var metadataRequest = await GetMetadata(listId);
+            var metadataRequest = await GetMetadataOnApi(listId);
            
             string fiatValue = await _settingCryptocurrencyRepository.GetFiatCurrency();
 
@@ -88,7 +88,7 @@ namespace CoinMarketCup.Service
             return Return<List<Cryptocurrency>>.ReturnSuccessfully(CoinMarketCupHelpers.ObjectShapingCryptocurrencies(listingLatestRequest.Information, metadataRequest.Information, fiatValue));
         }
 
-        private async Task<Return<MetadataRequest>> GetMetadata(IEnumerable<string> listId)
+        private async Task<Return<MetadataRequest>> GetMetadataOnApi(IEnumerable<string> listId)
         {
             var metadataRequests = new List<MetadataRequest>();
             
@@ -110,7 +110,7 @@ namespace CoinMarketCup.Service
             return Return<MetadataRequest>.ReturnSuccessfully(CoinMarketCupHelpers.MetadataListToMetadata(metadataRequests));
         }
 
-        private async Task<Return<ListingLatestRequest>> GetListingLatest()
+        private async Task<Return<ListingLatestRequest>> GetListingLatestOnApi()
         {
             _logger.LogInformation("Start get listing latest");
 

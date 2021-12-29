@@ -7,12 +7,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace CoinMarketCup.Repository
 {
     public class CoinMarketRepository : RepositoryBase<Cryptocurrency>
     {
         private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
+
         public CoinMarketRepository(ApplicationDbContext context, SettingCryptocurrencyRepository settingCryptocurrencyRepository) : base(context)
         {
             _settingCryptocurrencyRepository = settingCryptocurrencyRepository;
@@ -27,8 +29,31 @@ namespace CoinMarketCup.Repository
                 return;
             }
 
-            await Context.Database.ExecuteSqlInterpolatedAsync($"TRUNCATE TABLE Cryptocurrencies");
+            Context.Cryptocurrencies.RemoveRange(Context.Cryptocurrencies);
             await Context.SaveChangesAsync();
+        }
+
+        public async Task UpdateOrCreateDate(List<Cryptocurrency> cryptocurrencies)
+        {
+            foreach (var cryptocurrency in cryptocurrencies)
+            {
+                await UpdateOrCreateDate(cryptocurrency);
+            }
+        }
+
+        public async Task UpdateOrCreateDate(Cryptocurrency cryptocurrency)
+        {
+            var crypto = await Context.Cryptocurrencies
+                    .FirstOrDefaultAsync(w => w.CoinMarketCupId == cryptocurrency.CoinMarketCupId);
+
+            if (crypto is null)
+            {
+                await Add(cryptocurrency);
+                return;
+            }
+
+            crypto.Map(cryptocurrency);
+            await Edit(crypto);
         }
         public async Task<bool> IsExpiryDateExpired()
         {

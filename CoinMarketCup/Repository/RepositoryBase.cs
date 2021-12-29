@@ -24,7 +24,13 @@ namespace CoinMarketCup.Repository
 
         public async Task Edit(T entity)
         {
-            Context.Set<T>().Update(entity).State  = EntityState.Modified; 
+            Context.Set<T>().Update(entity).State = EntityState.Modified;
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task EditRange(IEnumerable<T> entity)
+        {
+            Context.Set<T>().UpdateRange(entity);
             await Context.SaveChangesAsync();
         }
 

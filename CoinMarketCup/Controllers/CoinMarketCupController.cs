@@ -3,17 +3,19 @@ using CoinMarketCup.Models.Dto;
 using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using CoinMarketCup.Interface;
 
 namespace CoinMarketCup.Controllers
 {
     public class CoinMarketCupController : Controller
     {
-        private readonly CoinMarketCupService _coinMarketCupService;
+        private readonly ICoinMarketCupService _coinMarketCupService;
 
-        public CoinMarketCupController(CoinMarketCupService coinMarketCupService)
+        public CoinMarketCupController(ICoinMarketCupService coinMarketCupService)
         {
             _coinMarketCupService = coinMarketCupService;
         }
+
 
         public async Task<IActionResult> GetInformationQuotes(SortState sortOrder = SortState.MarketCap, int page = 1)
         {
