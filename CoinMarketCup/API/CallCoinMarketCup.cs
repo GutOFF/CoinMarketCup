@@ -6,10 +6,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
+using CoinMarketCup.Interface;
 
 namespace CoinMarketCup.API
 {
-    public class CallCoinMarketCup
+    public class CallCoinMarketCup : ICallApiCoinMarketCup
     {
         private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
         public CallCoinMarketCup(SettingCryptocurrencyRepository settingCryptocurrencyRepository)

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CoinMarketCup.Models.Request;
+﻿using CoinMarketCup.Models.Request;
 using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace CoinMarketCup.Controllers
 {

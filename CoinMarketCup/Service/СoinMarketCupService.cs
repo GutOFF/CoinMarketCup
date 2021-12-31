@@ -18,15 +18,15 @@ namespace CoinMarketCup.Service
 {
     public class CoinMarketCupService : ICoinMarketCupService
     {
-        private readonly CallCoinMarketCup _callCoinMarketCup;
+        private readonly ICallApiCoinMarketCup _callCoinMarketCup;
         private readonly CoinMarketRepository _coinMarketRepository;
         private readonly SettingCryptocurrencyRepository _settingCryptocurrencyRepository;
         private readonly ILogger<CoinMarketCupService> _logger;
 
 
-        public CoinMarketCupService(CallCoinMarketCup coinMarketCupHelpers, CoinMarketRepository coinMarketRepository, SettingCryptocurrencyRepository settingCryptocurrencyRepository, ILogger<CoinMarketCupService> logger)
+        public CoinMarketCupService(ICallApiCoinMarketCup callCoinMarketCup, CoinMarketRepository coinMarketRepository, SettingCryptocurrencyRepository settingCryptocurrencyRepository, ILogger<CoinMarketCupService> logger)
         {
-            _callCoinMarketCup = coinMarketCupHelpers;
+            _callCoinMarketCup = callCoinMarketCup;
             _coinMarketRepository = coinMarketRepository;
             _settingCryptocurrencyRepository = settingCryptocurrencyRepository;
             _logger = logger;

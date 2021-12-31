@@ -1,5 +1,4 @@
 ﻿using CoinMarketCup.API;
-using CoinMarketCup.Helpers;
 using CoinMarketCup.Interface;
 using CoinMarketCup.Repository;
 using CoinMarketCup.Service;
@@ -21,8 +20,7 @@ namespace CoinMarketCup.Extension
             services.AddTransient<LoginService>();
             services.AddTransient<ICoinMarketCupService, CoinMarketCupService>();
 
-     
-            services.AddTransient<CallCoinMarketCup>();
+            services.AddTransient<ICallApiCoinMarketCup, CallCoinMarketCup>();
         }
     }
 }

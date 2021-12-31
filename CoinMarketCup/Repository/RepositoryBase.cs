@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace CoinMarketCup.Repository
 {
-    public class RepositoryBase<T> : IRepositoryBase<T> 
+    public abstract class RepositoryBase<T> : IRepositoryBase<T> 
         where T : class
     {
         protected ApplicationDbContext Context;
 
-        public RepositoryBase(ApplicationDbContext context)
+        protected RepositoryBase(ApplicationDbContext context)
         {
             Context = context;
         }
+
 
         public async Task Add(T entity)
         {
