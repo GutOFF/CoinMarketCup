@@ -19,7 +19,8 @@
 Стуктуру базы данных:
 
 ![alt tag](https://i.imgur.com/ZUqtob5.png "Стуктура Базы Данных")​ <br />
-Две таблицы SettingCryptocurrency и Cryptocurrencies. В SettingCryptocurrency хранится информацию о настройки сервиса для получения криптовалюты, Cryptocurrencies информация о криптовалюте. <br />
+Две таблицы SettingCryptocurrency и Cryptocurrencies. В SettingCryptocurrency хранится информацию о настройки сервиса для получения криптовалюты, Cryptocurrencies информация о криптовалюте. Остальные таблицы дефолотн Identity <br />
+
 
 Исполнитель задания Гутов Андрей <br />
 Email - gyhadyt@mail.ru <br />
