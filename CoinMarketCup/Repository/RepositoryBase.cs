@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CoinMarketCup.Repository
 {
-    public abstract class RepositoryBase<T> : IRepositoryBase<T> 
+    public class RepositoryBase<T> : IRepositoryBase<T> 
         where T : class
     {
         protected ApplicationDbContext Context;
