@@ -20,7 +20,7 @@ namespace CoinMarketCup.Service
             {
                 Name = roleName,
                 NormalizedName = roleName.ToUpper(),
-                IsPublish = isPublish
+                IsPublic = isPublish
             });
 
             return result.Succeeded

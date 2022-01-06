@@ -20,9 +20,9 @@ namespace Entity
             string adminRoleName = "Admin";
             string userRoleName = "User";
             string superAdminRoleName = "SuperAdmin";
-            Role adminRole = new Role { Name = adminRoleName, NormalizedName = adminRoleName.ToUpper(), IsPublish = true };
-            Role userRole = new Role { Name = userRoleName, NormalizedName = userRoleName.ToUpper(), IsPublish  = true};
-            Role superAdminRole = new Role { Name = superAdminRoleName, NormalizedName = superAdminRoleName.ToUpper(), IsPublish = false};
+            Role adminRole = new Role { Name = adminRoleName, NormalizedName = adminRoleName.ToUpper(), IsPublic = true };
+            Role userRole = new Role { Name = userRoleName, NormalizedName = userRoleName.ToUpper(), IsPublic  = true};
+            Role superAdminRole = new Role { Name = superAdminRoleName, NormalizedName = superAdminRoleName.ToUpper(), IsPublic = false};
 
             modelBuilder.Entity<Role>()
                 .HasData(new Role[] { adminRole, userRole, superAdminRole });

@@ -39,7 +39,7 @@ namespace CoinMarketCup.Service
         }
         public async Task<Return<bool>> Registration(RegistrationRequest model)
         {
-            if (!await _roleRepository.IsPublishRole(model.RoleName.ToUpper()))
+            if (!await _roleRepository.IsPublicRole(model.RoleName.ToUpper()))
             {
                 return Return<bool>.ReturnFail("role_not_fond");
             }

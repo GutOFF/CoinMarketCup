@@ -4,6 +4,6 @@ namespace Entity.Model
 {
     public class Role : IdentityRole
     {
-        public bool IsPublish { get; set; }
+        public bool IsPublic { get; set; }
     }
 }

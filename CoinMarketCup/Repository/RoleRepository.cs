@@ -14,18 +14,18 @@ namespace CoinMarketCup.Repository
             
         }
 
-        public Task<List<Role>> GetPublishRoles()
+        public Task<List<Role>> GetPublicRoles()
         {
             return Context.Roles
-                .Where(w => w.IsPublish)
+                .Where(w => w.IsPublic)
                 .ToListAsync();
         }
 
-        public Task<bool> IsPublishRole(string normalizedName)
+        public Task<bool> IsPublicRole(string normalizedName)
         {
             return Context
                 .Roles
-                .AnyAsync(w => w.NormalizedName == normalizedName && w.IsPublish);
+                .AnyAsync(w => w.NormalizedName == normalizedName && w.IsPublic);
         }
 
         public Task<Role> GetRoleByNormalizedName(string normalizedName)
