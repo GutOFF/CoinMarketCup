@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 
 namespace CoinMarketCup.Models.Request
@@ -29,10 +28,5 @@ namespace CoinMarketCup.Models.Request
         [Required]
         [Display(Name = "RoleName")]
         public string RoleName { get; set; }
-
-        [Required]
-        [Display(Name = "RoleName")]
-        public DateTime DateOfBirth { get; set; }
-
     }
 }

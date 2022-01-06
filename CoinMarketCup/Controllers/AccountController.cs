@@ -9,11 +9,11 @@ namespace CoinMarketCup.Controllers
     [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly LoginService _loginService;
+        private readonly AccountService _accountService;
 
-        public AccountController(LoginService loginService)
+        public AccountController(AccountService accountService)
         {
-            _loginService = loginService;
+            _accountService = accountService;
         }
        
         [HttpGet]
@@ -33,7 +33,7 @@ namespace CoinMarketCup.Controllers
                 return View(loginRequest);
             }
 
-            var result = await _loginService.Login(loginRequest);
+            var result = await _accountService.Login(loginRequest);
             
             if (result.IsSuccessfully)
             {
@@ -59,7 +59,7 @@ namespace CoinMarketCup.Controllers
                 return View(registrationRequest);
             }
 
-            var result = await _loginService.Registration(registrationRequest);
+            var result = await _accountService.Registration(registrationRequest);
            
             if (result.IsSuccessfully)
             {
@@ -73,7 +73,7 @@ namespace CoinMarketCup.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            var result = await _loginService.Logout();
+            var result = await _accountService.Logout();
             return RedirectToAction("Index", "Home");
         }
     }

@@ -5,14 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Entity
 {
-    public class ApplicationDbContext : IdentityDbContext<User>
+    public class ApplicationDbContext : IdentityDbContext<User, Role, string>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
 
         }
 
-        public DbSet<Role> RolesRole { get; set; }
         public DbSet<Cryptocurrency> Cryptocurrencies { get; set; }
         public DbSet<SettingCryptocurrency> SettingCryptocurrency { get; set; }
 

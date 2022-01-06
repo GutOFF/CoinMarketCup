@@ -1,9 +1,8 @@
-﻿using CoinMarketCup.Models;
+﻿using CoinMarketCup.Interface;
+using CoinMarketCup.Models;
 using CoinMarketCup.Models.Dto;
-using CoinMarketCup.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CoinMarketCup.Interface;
 
 namespace CoinMarketCup.Controllers
 {

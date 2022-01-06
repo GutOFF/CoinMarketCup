@@ -35,7 +35,7 @@ namespace CoinMarketCup.Repository
             await Context.SaveChangesAsync();
         }
 
-        public async ValueTask<T> GetById(string id)
+        public async Task<T> GetById(string id)
         {
             var result= await Context.Set<T>().FindAsync(id);
             return result;

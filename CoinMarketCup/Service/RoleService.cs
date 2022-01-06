@@ -7,7 +7,6 @@ namespace CoinMarketCup.Service
 {
     public class RoleService
     {
-
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public RoleService( RoleManager<IdentityRole> roleManager)

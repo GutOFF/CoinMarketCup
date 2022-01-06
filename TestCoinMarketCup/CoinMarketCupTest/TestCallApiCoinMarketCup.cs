@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TestCoinMarketCup.CoinMarketCupTest
 {
-    class TestCallApiCoinMarketCup : TestBase
+    internal class TestCallApiCoinMarketCup : TestBase
     {
         private readonly string API_KEY = "10c2408c-f3fd-4c1e-801e-b97ba3bba899";
 

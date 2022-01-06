@@ -1,4 +1,5 @@
-﻿using CoinMarketCup.API;
+﻿using CoinMarketCup.Helpers;
+using CoinMarketCup.Interface;
 using CoinMarketCup.Models;
 using CoinMarketCup.Models.Request.CoinMarketCupRequest;
 using CoinMarketCup.Monad;
@@ -10,8 +11,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CoinMarketCup.Helpers;
-using CoinMarketCup.Interface;
 
 
 namespace CoinMarketCup.Service

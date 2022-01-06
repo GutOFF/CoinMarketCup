@@ -1,11 +1,9 @@
-﻿using System;
+﻿using Entity;
+using Entity.Model;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Entity;
-using Entity.Model;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoinMarketCup.Repository
 {
@@ -18,7 +16,7 @@ namespace CoinMarketCup.Repository
 
         public Task<List<Role>> GetPublishRoles()
         {
-            return Context.RolesRole
+            return Context.Roles
                 .Where(w => w.IsPublish)
                 .ToListAsync();
         }
@@ -26,14 +24,14 @@ namespace CoinMarketCup.Repository
         public Task<bool> IsPublishRole(string normalizedName)
         {
             return Context
-                .RolesRole
+                .Roles
                 .AnyAsync(w => w.NormalizedName == normalizedName && w.IsPublish);
         }
 
         public Task<Role> GetRoleByNormalizedName(string normalizedName)
         {
             return Context
-                .RolesRole
+                .Roles
                 .FirstOrDefaultAsync(w=>w.NormalizedName == normalizedName);
         }
     }

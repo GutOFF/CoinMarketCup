@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace CoinMarketCup.Service
 {
-    public class LoginService
+    public class AccountService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signManager;
         private readonly RoleRepository _roleRepository;
-        public LoginService(SignInManager<User> signManager, UserManager<User> userManager, RoleRepository roleRepository)
+        public AccountService(SignInManager<User> signManager, UserManager<User> userManager, RoleRepository roleRepository)
         {
             _signManager = signManager;
             _userManager = userManager;
@@ -29,12 +29,7 @@ namespace CoinMarketCup.Service
             }
             var result = await _signManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 
-            if (!result.Succeeded)
-            {
-                return Return<bool>.ReturnFail("failed_to_login");
-            }
-
-            return Return<bool>.ReturnSuccessfully(true);
+            return !result.Succeeded ? Return<bool>.ReturnFail("failed_to_login") : Return<bool>.ReturnSuccessfully(true);
         }
 
         public async Task<Return<bool>> Logout()
@@ -52,13 +47,13 @@ namespace CoinMarketCup.Service
             var role = await _roleRepository
                 .GetRoleByNormalizedName(model.RoleName.ToUpper());
 
-            User user = new User()
+            var user = new User()
             {
                 UserName = model.Name,
                 Email = model.Email
             };
 
-            IdentityResult result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {

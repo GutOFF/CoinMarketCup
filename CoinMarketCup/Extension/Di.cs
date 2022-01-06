@@ -17,7 +17,7 @@ namespace CoinMarketCup.Extension
             services.AddTransient<SettingCryptocurrencyRepository>();
 
 
-            services.AddTransient<LoginService>();
+            services.AddTransient<AccountService>();
             services.AddTransient<ICoinMarketCupService, CoinMarketCupService>();
 
             services.AddTransient<ICallApiCoinMarketCup, CallCoinMarketCup>();
